@@ -130,4 +130,10 @@ config ADXL367_THREAD_STACK_SIZE
 	help
 	  Stack size of thread used by the driver to handle interrupts.
 
+config ADXL367_VM_CAPTURE_TRIGGER_TYPE
+	bool "Capture if the callback will set activity or inactivity bit to sensor trigger type"
+	default n
+	help
+	  Use to determine if the interrupt is triggered by activity or inactivity.
+
 endif # ADXL367

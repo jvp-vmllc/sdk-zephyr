@@ -29,12 +29,25 @@ static void adxl367_thread_cb(const struct device *dev)
 		return;
 	}
 
+#if defined(CONFIG_ADXL367_VM_CAPTURE_TRIGGER_TYPE)
+	if (drv_data->th_handler != NULL) {
+		struct sensor_trigger local_trigger = *drv_data->th_trigger; // Make a local copy
+		if (FIELD_GET(ADXL367_STATUS_INACT, status) != 0) {
+			local_trigger.type = SENSOR_TRIG_STATIONARY;
+			drv_data->th_handler(dev, &local_trigger);
+		} else if (FIELD_GET(ADXL367_STATUS_ACT, status) != 0) {
+			local_trigger.type = SENSOR_TRIG_MOTION;
+			drv_data->th_handler(dev, &local_trigger);
+		}
+	}
+#else
 	if (drv_data->th_handler != NULL) {
 		if (((FIELD_GET(ADXL367_STATUS_INACT, status)) != 0) ||
 		    (FIELD_GET(ADXL367_STATUS_ACT, status)) != 0) {
 			drv_data->th_handler(dev, drv_data->th_trigger);
 		}
 	}
+#endif
 
 	if ((drv_data->drdy_handler != NULL) && (FIELD_GET(ADXL367_STATUS_DATA_RDY, status) != 0)) {
 		drv_data->drdy_handler(dev, drv_data->drdy_trigger);
