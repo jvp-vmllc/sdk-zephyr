@@ -12,7 +12,8 @@ static struct k_spinlock lock;
 
 void gnss_publish_data(const struct device *dev, const struct gnss_data *data)
 {
-	K_SPINLOCK(&lock) {
+	K_SPINLOCK(&lock)
+	{
 		STRUCT_SECTION_FOREACH(gnss_data_callback, callback) {
 			if (callback->dev == NULL || callback->dev == dev) {
 				callback->callback(dev, data);
@@ -25,7 +26,8 @@ void gnss_publish_data(const struct device *dev, const struct gnss_data *data)
 void gnss_publish_satellites(const struct device *dev, const struct gnss_satellite *satellites,
 			     uint16_t size)
 {
-	K_SPINLOCK(&lock) {
+	K_SPINLOCK(&lock)
+	{
 		STRUCT_SECTION_FOREACH(gnss_satellites_callback, callback) {
 			if (callback->dev == NULL || callback->dev == dev) {
 				callback->callback(dev, satellites, size);
