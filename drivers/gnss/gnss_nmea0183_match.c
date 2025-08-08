@@ -36,9 +36,9 @@ static void gnss_nmea0183_match_reset_gsv(struct gnss_nmea0183_match_data *data)
 
 static void gnss_nmea0183_match_publish(struct gnss_nmea0183_match_data *data)
 {
-	if ((data->gga_utc == 0) || (data->rmc_utc == 0)) {
-		return;
-	}
+	// if ((data->gga_utc == 0) || (data->rmc_utc == 0)) {
+	// 	return;
+	// }
 
 	if (data->gga_utc == data->rmc_utc) {
 		gnss_publish_data(data->gnss, &data->data);
@@ -82,17 +82,21 @@ void gnss_nmea0183_match_txt_callback(struct modem_chat *chat, char **argv, uint
 {
 	struct gnss_nmea0183_match_data *data = user_data;
 
+#if CONFIG_GNSS_DUMP_TO_LOG
 	/* Print received TXT data for debugging */
-	printk("TXT callback - argc: %d\n", argc);
+	printk("	TXT callback - argc: %d, ", argc);
 	for (int i = 0; i < argc; i++) {
 		if (argv[i]) {
-			printk("  argv[%d]: %s\n", i, argv[i]);
+			printk("%s ", argv[i]);
 		}
 	}
+	printk("\n");
+#endif // CONFIG_GNSS_DUMP_TO_LOG
 
 	/* TODO: Implement TXT parsing
 	 * TXT contains: text transmission with severity and text content
 	 */
+	gnss_nmea0183_match_publish(data);
 }
 
 void gnss_nmea0183_match_vtg_callback(struct modem_chat *chat, char **argv, uint16_t argc,
@@ -101,16 +105,18 @@ void gnss_nmea0183_match_vtg_callback(struct modem_chat *chat, char **argv, uint
 	struct gnss_nmea0183_match_data *data = user_data;
 
 	/* Print received VTG data for debugging */
-	printk("VTG callback - argc: %d\n", argc);
+	printk("	VTG callback - argc: %d, ", argc);
 	for (int i = 0; i < argc; i++) {
 		if (argv[i]) {
-			printk("  argv[%d]: %s\n", i, argv[i]);
+			printk("%s ", argv[i]);
 		}
 	}
+	printk("\n");
 
 	/* TODO: Implement VTG parsing
 	 * VTG contains: track made good and ground speed
 	 */
+	gnss_nmea0183_match_publish(data);
 }
 
 void gnss_nmea0183_match_gsa_callback(struct modem_chat *chat, char **argv, uint16_t argc,
@@ -119,16 +125,18 @@ void gnss_nmea0183_match_gsa_callback(struct modem_chat *chat, char **argv, uint
 	struct gnss_nmea0183_match_data *data = user_data;
 
 	/* Print received GSA data for debugging */
-	printk("GSA callback - argc: %d\n", argc);
+	printk("	GSA callback - argc: %d, ", argc);
 	for (int i = 0; i < argc; i++) {
 		if (argv[i]) {
-			printk("  argv[%d]: %s\n", i, argv[i]);
+			printk("%s ", argv[i]);
 		}
 	}
+	printk("\n");
 
 	/* TODO: Implement GSA parsing
 	 * GSA contains: satellite active, fix type, PRNs of satellites used, DOP values
 	 */
+	gnss_nmea0183_match_publish(data);
 }
 
 void gnss_nmea0183_match_gll_callback(struct modem_chat *chat, char **argv, uint16_t argc,
@@ -137,16 +145,18 @@ void gnss_nmea0183_match_gll_callback(struct modem_chat *chat, char **argv, uint
 	struct gnss_nmea0183_match_data *data = user_data;
 
 	/* Print received GLL data for debugging */
-	printk("GLL callback - argc: %d\n", argc);
+	printk("	GLL callback - argc: %d, ", argc);
 	for (int i = 0; i < argc; i++) {
 		if (argv[i]) {
-			printk("  argv[%d]: %s\n", i, argv[i]);
+			printk("%s ", argv[i]);
 		}
 	}
+	printk("\n");
 
 	/* TODO: Implement GLL parsing
 	 * GLL contains: geographic position - latitude/longitude
 	 */
+	gnss_nmea0183_match_publish(data);
 }
 
 #if CONFIG_GNSS_SATELLITES
