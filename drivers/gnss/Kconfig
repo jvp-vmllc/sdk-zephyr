@@ -60,6 +60,16 @@ config GNSS_INIT_PRIORITY
 	help
 	  Driver initialization priority for GNSS drivers.
 
+config GNSS_VM_NMEA0183_REPORT_ALL
+	bool "Enable all readings of NMEA sentences"
+	default n
+	help
+	  Report all NMEA sentences that are sent by the SAM-M10Q module.
+	  The additional following sentences are as follows: TXT, VTG, GSA, and GLL.
+	  
+	  These extra sentences are published but the data at Callback function is currently empty.
+	  This is used only to know when is the last NMEA sentence is received.
+
 module = GNSS
 module-str = gnss
 source "subsys/logging/Kconfig.template.log_config"
