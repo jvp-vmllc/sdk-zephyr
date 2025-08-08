@@ -36,13 +36,13 @@ static void gnss_nmea0183_match_reset_gsv(struct gnss_nmea0183_match_data *data)
 
 static void gnss_nmea0183_match_publish(struct gnss_nmea0183_match_data *data)
 {
-#if GNSS_VM_NMEA0183_REPORT_ALL
+#if defined(CONFIG_GNSS_VM_NMEA0183_REPORT_ALL)
 // TODO: add data checking exclusive to GGA UTC and RMC UTC
 #else
 	if ((data->gga_utc == 0) || (data->rmc_utc == 0)) {
 		return;
 	}
-#endif
+#endif // CONFIG_GNSS_VM_NMEA0183_REPORT_ALL
 
 	if (data->gga_utc == data->rmc_utc) {
 		gnss_publish_data(data->gnss, &data->data);
@@ -81,13 +81,13 @@ void gnss_nmea0183_match_rmc_callback(struct modem_chat *chat, char **argv, uint
 	gnss_nmea0183_match_publish(data);
 }
 
-#if GNSS_VM_NMEA0183_REPORT_ALL
+#if defined(CONFIG_GNSS_VM_NMEA0183_REPORT_ALL)
 void gnss_nmea0183_match_txt_callback(struct modem_chat *chat, char **argv, uint16_t argc,
 				      void *user_data)
 {
 	struct gnss_nmea0183_match_data *data = user_data;
 
-#if CONFIG_GNSS_DUMP_TO_LOG
+#if defined(CONFIG_GNSS_DUMP_TO_LOG)
 	/* Print received TXT data for debugging */
 	printk("	TXT callback - argc: %d, ", argc);
 	for (int i = 0; i < argc; i++) {

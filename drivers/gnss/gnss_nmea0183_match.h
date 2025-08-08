@@ -90,6 +90,7 @@ void gnss_nmea0183_match_rmc_callback(struct modem_chat *chat, char **argv, uint
 void gnss_nmea0183_match_gsv_callback(struct modem_chat *chat, char **argv, uint16_t argc,
 				      void *user_data);
 
+#if defined(CONFIG_GNSS_VM_NMEA0183_REPORT_ALL)
 /**
  * @brief Match callback for the NMEA GLL NMEA0183 message
  *
@@ -121,6 +122,7 @@ void gnss_nmea0183_match_vtg_callback(struct modem_chat *chat, char **argv, uint
  */
 void gnss_nmea0183_match_txt_callback(struct modem_chat *chat, char **argv, uint16_t argc,
 				      void *user_data);
+#endif // CONFIG_GNSS_VM_NMEA0183_REPORT_ALL
 
 /**
  * @brief Initialize a GNSS NMEA0183 match instance

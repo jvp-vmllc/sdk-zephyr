@@ -53,12 +53,14 @@ struct gnss_nmea_generic_data {
 MODEM_CHAT_MATCHES_DEFINE(
 	unsol_matches, MODEM_CHAT_MATCH_WILDCARD("$??GGA,", ",*", gnss_nmea0183_match_gga_callback),
 	MODEM_CHAT_MATCH_WILDCARD("$??RMC,", ",*", gnss_nmea0183_match_rmc_callback),
-#if GNSS_VM_NMEA0183_REPORT_ALL
+
+#if defined(CONFIG_GNSS_VM_NMEA0183_REPORT_ALL)
 	MODEM_CHAT_MATCH_WILDCARD("$??TXT,", ",*", gnss_nmea0183_match_txt_callback),
 	MODEM_CHAT_MATCH_WILDCARD("$??VTG,", ",*", gnss_nmea0183_match_vtg_callback),
 	MODEM_CHAT_MATCH_WILDCARD("$??GSA,", ",*", gnss_nmea0183_match_gsa_callback),
 	MODEM_CHAT_MATCH_WILDCARD("$??GLL,", ",*", gnss_nmea0183_match_gll_callback),
-#endif
+#endif // CONFIG_GNSS_VM_NMEA0183_REPORT_ALL
+
 #if CONFIG_GNSS_SATELLITES
 	MODEM_CHAT_MATCH_WILDCARD("$??GSV,", ",*", gnss_nmea0183_match_gsv_callback),
 #endif
