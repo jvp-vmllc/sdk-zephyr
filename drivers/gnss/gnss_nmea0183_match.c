@@ -77,6 +77,78 @@ void gnss_nmea0183_match_rmc_callback(struct modem_chat *chat, char **argv, uint
 	gnss_nmea0183_match_publish(data);
 }
 
+void gnss_nmea0183_match_txt_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data)
+{
+	struct gnss_nmea0183_match_data *data = user_data;
+
+	/* Print received TXT data for debugging */
+	printk("TXT callback - argc: %d\n", argc);
+	for (int i = 0; i < argc; i++) {
+		if (argv[i]) {
+			printk("  argv[%d]: %s\n", i, argv[i]);
+		}
+	}
+
+	/* TODO: Implement TXT parsing
+	 * TXT contains: text transmission with severity and text content
+	 */
+}
+
+void gnss_nmea0183_match_vtg_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data)
+{
+	struct gnss_nmea0183_match_data *data = user_data;
+
+	/* Print received VTG data for debugging */
+	printk("VTG callback - argc: %d\n", argc);
+	for (int i = 0; i < argc; i++) {
+		if (argv[i]) {
+			printk("  argv[%d]: %s\n", i, argv[i]);
+		}
+	}
+
+	/* TODO: Implement VTG parsing
+	 * VTG contains: track made good and ground speed
+	 */
+}
+
+void gnss_nmea0183_match_gsa_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data)
+{
+	struct gnss_nmea0183_match_data *data = user_data;
+
+	/* Print received GSA data for debugging */
+	printk("GSA callback - argc: %d\n", argc);
+	for (int i = 0; i < argc; i++) {
+		if (argv[i]) {
+			printk("  argv[%d]: %s\n", i, argv[i]);
+		}
+	}
+
+	/* TODO: Implement GSA parsing
+	 * GSA contains: satellite active, fix type, PRNs of satellites used, DOP values
+	 */
+}
+
+void gnss_nmea0183_match_gll_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data)
+{
+	struct gnss_nmea0183_match_data *data = user_data;
+
+	/* Print received GLL data for debugging */
+	printk("GLL callback - argc: %d\n", argc);
+	for (int i = 0; i < argc; i++) {
+		if (argv[i]) {
+			printk("  argv[%d]: %s\n", i, argv[i]);
+		}
+	}
+
+	/* TODO: Implement GLL parsing
+	 * GLL contains: geographic position - latitude/longitude
+	 */
+}
+
 #if CONFIG_GNSS_SATELLITES
 void gnss_nmea0183_match_gsv_callback(struct modem_chat *chat, char **argv, uint16_t argc,
 				      void *user_data)

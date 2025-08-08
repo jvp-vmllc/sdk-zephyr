@@ -91,6 +91,38 @@ void gnss_nmea0183_match_gsv_callback(struct modem_chat *chat, char **argv, uint
 				      void *user_data);
 
 /**
+ * @brief Match callback for the NMEA GLL NMEA0183 message
+ *
+ * @details Should be used as the callback of a modem_chat match which matches "$??GLL,"
+ */
+void gnss_nmea0183_match_gll_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data);
+
+/**
+ * @brief Match callback for the NMEA GSA NMEA0183 message
+ *
+ * @details Should be used as the callback of a modem_chat match which matches "$??GSA,"
+ */
+void gnss_nmea0183_match_gsa_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data);
+
+/**
+ * @brief Match callback for the NMEA VTG NMEA0183 message
+ *
+ * @details Should be used as the callback of a modem_chat match which matches "$??VTG,"
+ */
+void gnss_nmea0183_match_vtg_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data);
+
+/**
+ * @brief Match callback for the NMEA TXT NMEA0183 message
+ *
+ * @details Should be used as the callback of a modem_chat match which matches "$??TXT,"
+ */
+void gnss_nmea0183_match_txt_callback(struct modem_chat *chat, char **argv, uint16_t argc,
+				      void *user_data);
+
+/**
  * @brief Initialize a GNSS NMEA0183 match instance
  *
  * @param data GNSS NMEA0183 match instance to initialize
