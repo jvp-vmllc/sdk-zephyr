@@ -23,9 +23,10 @@ LOG_MODULE_REGISTER(gnss_nmea_generic, CONFIG_GNSS_LOG_LEVEL);
 
 #define DT_DRV_COMPAT gnss_nmea_generic
 
-#define UART_RECV_BUF_SZ 128
-#define CHAT_RECV_BUF_SZ 256
-#define CHAT_ARGV_SZ     32
+#define UART_RECV_BUF_SZ    (256 + IS_ENABLED(CONFIG_GNSS_SATELLITES) * 512)
+#define UART_TRANSMT_BUF_SZ 64
+#define CHAT_RECV_BUF_SZ    256
+#define CHAT_ARGV_SZ        32
 
 struct gnss_nmea_generic_config {
 	const struct device *uart;
@@ -41,6 +42,7 @@ struct gnss_nmea_generic_data {
 	struct modem_pipe *uart_pipe;
 	struct modem_backend_uart uart_backend;
 	uint8_t uart_backend_receive_buf[UART_RECV_BUF_SZ];
+	uint8_t uart_backend_transmit_buf[UART_TRANSMT_BUF_SZ];
 
 	/* Modem chat */
 	struct modem_chat chat;
@@ -111,7 +113,8 @@ static void gnss_nmea_generic_init_pipe(const struct device *dev)
 		.uart = cfg->uart,
 		.receive_buf = data->uart_backend_receive_buf,
 		.receive_buf_size = sizeof(data->uart_backend_receive_buf),
-	};
+		.transmit_buf = data->uart_backend_transmit_buf,
+		.transmit_buf_size = data->sizeof(data->uart_backend_transmit_buf)};
 
 	data->uart_pipe = modem_backend_uart_init(&data->uart_backend, &uart_backend_config);
 }
