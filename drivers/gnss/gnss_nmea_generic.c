@@ -114,7 +114,7 @@ static void gnss_nmea_generic_init_pipe(const struct device *dev)
 		.receive_buf = data->uart_backend_receive_buf,
 		.receive_buf_size = sizeof(data->uart_backend_receive_buf),
 		.transmit_buf = data->uart_backend_transmit_buf,
-		.transmit_buf_size = data->sizeof(data->uart_backend_transmit_buf)};
+		.transmit_buf_size = sizeof(data->uart_backend_transmit_buf)};
 
 	data->uart_pipe = modem_backend_uart_init(&data->uart_backend, &uart_backend_config);
 }
